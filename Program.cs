@@ -12,8 +12,8 @@ builder.Services.AddSingleton<MongoDBService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Configure WebHost to listen on all IP addresses for Docker
-builder.WebHost.UseUrls("http://0.0.0.0:80");
+// ✅ Logging Environment Name
+Console.WriteLine($"Environment: {builder.Environment.EnvironmentName}");
 
 var app = builder.Build();
 
@@ -22,12 +22,6 @@ if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Docker"))
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
-
-// HTTPS redirection for non-Docker environments
-if (!app.Environment.IsEnvironment("Docker"))
-{
-    app.UseHttpsRedirection();
 }
 
 // ✅ ทดสอบการเชื่อมต่อ MongoDB
