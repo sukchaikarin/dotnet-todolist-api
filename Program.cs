@@ -12,10 +12,24 @@ builder.Services.AddSingleton<MongoDBService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// ✅ เพิ่มการตั้งค่า CORS
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin() // อนุญาตทุก Origin (ทุกโดเมน)
+              .AllowAnyHeader() // อนุญาตทุก Header
+              .AllowAnyMethod(); // อนุญาตทุก HTTP Method เช่น GET, POST, PUT, DELETE
+    });
+});
+
 // ✅ Logging Environment Name
 Console.WriteLine($"Environment: {builder.Environment.EnvironmentName}");
 
 var app = builder.Build();
+
+// ✅ ใช้ Middleware CORS
+app.UseCors(); // เรียกใช้ Default CORS Policy
 
 // Configure Swagger UI
 if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Docker"))
