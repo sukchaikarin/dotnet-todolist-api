@@ -1,20 +1,34 @@
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args,
+    ApplicationName = typeof(Program).Assembly.FullName,
+    ContentRootPath = AppContext.BaseDirectory,
+    WebRootPath = "wwwroot",
+    EnvironmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"
+});
 
-// Add services to the container
+// Add services to the Dependency Injection container
 builder.Services.AddSingleton<MongoDBService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Configure WebHost to listen on all IP addresses for Docker
+builder.WebHost.UseUrls("http://0.0.0.0:80");
+
 var app = builder.Build();
 
-// Configure Swagger
-if (app.Environment.IsDevelopment())
+// Configure Swagger UI
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Docker"))
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// HTTPS redirection for non-Docker environments
+if (!app.Environment.IsEnvironment("Docker"))
+{
+    app.UseHttpsRedirection();
+}
 
 // ✅ ทดสอบการเชื่อมต่อ MongoDB
 var todoService = app.Services.GetRequiredService<MongoDBService>();
@@ -27,7 +41,7 @@ if (!todoService.TestConnection())
 // ✅ หากเชื่อมต่อสำเร็จ แอปพลิเคชันจะทำงานต่อ
 Console.WriteLine("Successfully connected to MongoDB.");
 
-// Your existing weatherforecast endpoint
+// Simple Weather Forecast API
 var summaries = new[]
 {
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -47,8 +61,10 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast");
 
-// ✅ สร้าง Endpoint สำหรับการจัดการกับ Task
+// ✅ Health Check Endpoint
+app.MapGet("/health", () => Results.Ok("Healthy"));
 
+// ✅ Task Management Endpoints
 // GET: Get all tasks
 app.MapGet("/api/todo", async () => await todoService.GetAsync());
 

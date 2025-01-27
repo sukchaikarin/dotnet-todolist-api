@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5001:80"
+    environment:
+      # ✅ ส่ง Environment Variables ที่อ่านค่า Connection String และ Database Name ไปยังแอป
+      - MONGO_CONNECTION_STRING=mongodb+srv://karinsukchaiofficial:UVws3TUdfNYItyra@todolist.w1op7.mongodb.net/?retryWrites=true&w=majority
+      - MONGO_DATABASE_NAME=todolist
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:6.0 # หรือเวอร์ชันสูงกว่าที่คุณต้องการ
+    container_name: mongo
+    ports:
+      - "27017:27017" # เปิดพอร์ตสำหรับการเชื่อมต่อ MongoDB (ในกรณีที่ใช้ Local MongoDB)
+    volumes:
+      - mongo-data:/data/db # สร้าง volume เพื่อเก็บข้อมูลถาวรใน MongoDB
+
+volumes:
+  mongo-data:
