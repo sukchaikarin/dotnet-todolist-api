@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "CTnXNnJiOPqrtVScg6VGMEHQFos/+hSJ95E/u7I7+BY=",
+  "Source": "dotnet-todolist-api",
+  "BasePath": "_content/dotnet-todolist-api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
