@@ -38,3 +38,6 @@
 /Users/karin/Desktop/gofive/dotnet-todolist-api/obj/Debug/net9.0/dotnet-todolist-api.pdb
 /Users/karin/Desktop/gofive/dotnet-todolist-api/obj/Debug/net9.0/dotnet-todolist-api.genruntimeconfig.cache
 /Users/karin/Desktop/gofive/dotnet-todolist-api/obj/Debug/net9.0/ref/dotnet-todolist-api.dll
+/Users/karin/Desktop/gofive/dotnet-todolist-api/bin/Debug/net9.0/Swashbuckle.AspNetCore.Swagger.dll
+/Users/karin/Desktop/gofive/dotnet-todolist-api/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/Users/karin/Desktop/gofive/dotnet-todolist-api/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll
